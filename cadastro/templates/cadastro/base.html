@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Meu Site{% endblock %}</title>
+</head>
+
+<body>
+
+    <nav>
+        <a href="{% url 'index' %}">Início</a> |
+        <a href="{% url 'contato' %}">Contato</a> |
+        <a href="{% url 'adicionar' %}">Adicionar</a> |
+        {% if user.is_authenticated %}
+        Olá, {{ user.username }}! |
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Sair</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}">Entrar</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <hr>
+    <footer>
+        <p>&copy; 2026 {{ nome | default:"Visitante" }}</p>
+    </footer>
+
+</body>
+
+</html>
